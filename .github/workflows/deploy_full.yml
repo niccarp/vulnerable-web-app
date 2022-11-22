@@ -76,3 +76,14 @@ jobs:
           heroku_email: "niccarp89@gmail.com"
           remote_branch: "master"
           usedocker: true
+  build:
+    needs: deploy-heroku
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: NikitaGlukhi/heroku-pipelines-promoting@v1.1
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "appvulnerablenicolass"
+          heroku_email: "niccarp89@gmail.com"
+          heroku_promote_to_app: "appvulnerablenicolass-prod"
