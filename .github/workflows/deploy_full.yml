@@ -21,7 +21,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   snyk:
-    needs: sonarqube
+          #    needs: sonarqube
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
         sarif_file: snyk.sarif
 
   zap_scan:
-    needs: snyk
+          #    needs: snyk
     runs-on: ubuntu-latest
     name: Scan the webapplication
     steps:
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: NikitaGlukhi/heroku-pipelines-promoting@v1.1
+      - uses: NikitaGlukhi/heroku-pipelines-promoting@v2
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "appvulnerablenicolass"
