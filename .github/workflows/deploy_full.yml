@@ -21,7 +21,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   ImageScan:
-    needs: SAST
+          #    needs: SAST
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -46,9 +46,9 @@ jobs:
         sarif_file: snyk.sarif
 
   DAST:
-    needs: ImageScan
+          #    needs: ImageScan
     runs-on: ubuntu-latest
-    name: Scan the webapplication
+    name: DASTScan
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -59,7 +59,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
-          target: 'https://appvulnerablenicolass.herokuapp.com'
+          target: 'https://appvulnerablenicolass-staging.herokuapp.com'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
 
@@ -72,7 +72,7 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "appvulnerablenicolass" #Must be unique in Heroku
+          heroku_app_name: "appvulnerablenicolass-staging" #Must be unique in Heroku
           heroku_email: "niccarp89@gmail.com"
           remote_branch: "master"
           usedocker: true
@@ -84,6 +84,6 @@ jobs:
       - uses: NikitaGlukhi/heroku-pipelines-promoting@v2
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "appvulnerablenicolass"
+          heroku_app_name: "appvulnerablenicolass-staging"
           heroku_email: "niccarp89@gmail.com"
           heroku_promote_to_app: "appvulnerablenicolass"
