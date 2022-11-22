@@ -55,7 +55,7 @@ jobs:
 #        env:
 #          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   deploy-heroku:
-    needs: synk
+    needs: snyk
     name: Deploy Heroku
     runs-on: ubuntu-latest
     steps:
