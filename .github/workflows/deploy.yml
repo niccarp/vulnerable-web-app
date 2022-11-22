@@ -22,23 +22,23 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
 
-name: Deploy Vulnerable Application                                  # workflow name
-on:
+        #name: Deploy Vulnerable Application                                  # workflow name
+        #on:
   # Trigger analysis when pushing in master or pull requests, and when creating
   # a pull request. 
-  push:
-    branches:
-      - master
-jobs:
-  deploy-heroku:
-    name: Deploy Heroku
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "appvulnerablenicolass" #Must be unique in Heroku
-          heroku_email: "niccarp89@gmail.com"
-          remote_branch: "master"
-          usedocker: true
+  #  push:
+  #    branches:
+  #      - master
+  #jobs:
+  #  deploy-heroku:
+  #    name: Deploy Heroku
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+  #        with:
+  #          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+  #          heroku_app_name: "appvulnerablenicolass" #Must be unique in Heroku
+  #          heroku_email: "niccarp89@gmail.com"
+  #          remote_branch: "master"
+  #          usedocker: true
