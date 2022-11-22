@@ -8,7 +8,7 @@ on:
   pull_request:
       types: [opened, synchronize, reopened]
 jobs:
-  sonarqube:
+  SAST:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,8 +20,8 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  snyk:
-          #    needs: sonarqube
+  ImageScan:
+    needs: SAST
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -45,8 +45,8 @@ jobs:
       with:
         sarif_file: snyk.sarif
 
-  zap_scan:
-          #    needs: snyk
+  DAST:
+    needs: ImageScan
     runs-on: ubuntu-latest
     name: Scan the webapplication
     steps:
@@ -64,7 +64,7 @@ jobs:
           cmd_options: '-a'
 
   deploy-heroku:
-    needs: zap_scan
+    needs: DAST
     name: Deploy Heroku
     runs-on: ubuntu-latest
     steps:
@@ -76,7 +76,7 @@ jobs:
           heroku_email: "niccarp89@gmail.com"
           remote_branch: "master"
           usedocker: true
-  build:
+  deploy-prod:
     needs: deploy-heroku
     runs-on: ubuntu-latest
     steps:
@@ -86,4 +86,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "appvulnerablenicolass"
           heroku_email: "niccarp89@gmail.com"
-          heroku_promote_to_app: "appvulnerablenicolass-prod"
+          heroku_promote_to_app: "appvulnerablenicolass"
